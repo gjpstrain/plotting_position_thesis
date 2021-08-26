@@ -1,0 +1,95 @@
+```
+
+library(tidyverse)
+library(ggplot2)
+library(ordinal)
+
+# Building cumulative link mixed model and null model for likelihood responses
+
+model_like <- clmm(chance_slider.response ~ condition + (1 | participant) +
+                     (1 + condition | item_no), data = tidy_data)
+
+model_like_null <- clmm(chance_slider.response ~ 1 + (1 | participant) +
+                          (1 + condition | item_no), data = tidy_data)
+
+# ANOVA on likelihood models
+
+anova(model_like, model_like_null)
+
+# Building cumulative link mixed model and null model for severity responses
+
+model_severity <- clmm(severity_slider.response ~ condition + (1 + condition | participant) +
+                         (1 + condition | item_no), data = tidy_data)
+
+model_severity_null <- clmm(severity_slider.response ~ 1 + (1 + condition | participant) +
+                              (1 + condition | item_no), data = tidy_data)
+
+# ANOVA on severity models
+
+anova(model_severity, model_severity_null)
+
+# Analysis with equidistant thresholds - Likelihood
+
+model_like_EQ <- clmm(chance_slider.response ~ condition + (1 | participant) +
+                        (1 + condition | item_no), data = tidy_data, threshold = "equidistant")
+
+anova(model_like_EQ, model_like)
+
+# Analysis with equidistant thresholds - Severity
+
+model_severity_EQ <- clmm(severity_slider.response ~ condition + (1 + condition | participant) +
+                            (1 + condition | item_no), data = tidy_data, threshold = "equidistant")
+
+anova(model_severity_EQ, model_severity)
+
+# Graph literacy analysis - Model Building and Summary Tables
+
+like_with_lit <- clmm(chance_slider.response ~ condition * literacy + (1 | participant) +
+                        (1 + condition | item_no), data = tidy_data)
+
+sev_with_lit <- clmm(severity_slider.response ~ condition * literacy + (1 + condition | participant) +
+                       +                          (1 + condition | item_no), data = tidy_data)
+
+summary(like_with_lit)
+
+summary(sev_with_lit)
+
+# Graph literacy analysis - ANOVAs between new and old models
+
+anova(like_with_lit, model_like)
+
+anova(sev_with_lit, model_severity)
+
+# Producing plot for literacy analysis
+
+data_by_condition <- raw_data %>%
+  pivot_wider(names_from = condition, values_from = c(chance_slider.response:data_mean))
+
+data_by_condition %>%
+  mutate(chance_diff = chance_slider.response_High - chance_slider.response_Low) %>%
+  group_by(literacy_Low) %>%
+  summarise(mcd = mean(chance_diff)) %>%
+  ggplot(aes(x = mcd,
+             y = literacy_Low)) +
+  geom_point(size = 2) +
+  geom_segment(aes(x = 0, y = 2, xend = 1.5, yend = 2),
+               arrow = arrow(length = unit(0.5,"cm"))) +
+  theme_minimal() +
+  labs(title = "Comparing Response Spread and Graph Literacy Scores",
+       x = "Average Rating Difference (High - Low)",
+       y = "Literacy Score")
+
+# Reproducing graph literacy analysis while excluding low SGL scorers
+
+hi_lit <- tidy_data %>%
+  filter(literacy > 4.26)
+
+model_HiLit <- clmm(chance_slider.response ~ condition + (1 | participant) +
+                      (1 + condition | item_no), data = hi_lit)
+
+model_HiLit_null <- clmm(chance_slider.response ~ 1 + (1 | participant) +
+                           (1 + condition | item_no), data = hi_lit)
+
+anova(model_HiLit, model_HiLit_null)
+
+```
