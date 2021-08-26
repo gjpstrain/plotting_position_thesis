@@ -1,0 +1,45 @@
+```
+library(tidyverse)
+library(ggplot2)
+library(ordinal)
+
+raw_data <- read_csv("https://raw.githubusercontent.com/gjpstrain/plotting_position_thesis/main/plotting_position_risk_anonymised.csv")
+
+raw_data$condition[raw_data$condition == "lo"] <- "Low"
+raw_data$condition[raw_data$condition == "hi"] <- "High"
+
+tidy_data <-  raw_data %>%
+  mutate(condition = factor(condition),
+         chance_slider.response = factor(chance_slider.response, ordered = TRUE),
+         severity_slider.response = factor(severity_slider.response, ordered = TRUE))
+  
+
+likelihood_plot <- ggplot(data = raw_data, aes(x = chance_slider.response, fill = condition)) +
+  geom_bar(stat = "count", position = position_dodge()) +
+  scale_x_continuous(breaks = c(1:7), labels = c(1:7)) +
+  theme_minimal() +
+  theme(panel.grid.minor = element_blank()) +
+  labs(title = "Distribution of Risk Likelihood Responses on the 7-point Scale 
+for Charts in the High and Low Conditions",
+       x = "Risk Likelihood Rating",
+       y = "Count")
+
+Descriptive_likelihood <- likelihood_plot + scale_fill_brewer(palette = "Dark2")
+
+print(Descriptive_likelihood)
+
+severity_plot <- ggplot(data = raw_data, aes(x = severity_slider.response, fill = condition)) +
+  geom_bar(stat = "count", position = position_dodge()) +
+  scale_x_continuous(breaks = c(1:7), labels = c(1:7)) +
+  theme_minimal() +
+  theme(panel.grid.minor = element_blank()) +
+  labs(title = "Distribution of Risk Severity Responses on the 7-point Scale 
+for Charts in the High and Low Conditions",
+       x = "Risk Severity Rating",
+       y = "Count")
+
+Descriptive_severity <- severity_plot + scale_fill_brewer(palette = "Dark2")
+
+print(Descriptive_severity)
+
+```
