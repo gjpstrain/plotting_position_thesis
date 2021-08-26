@@ -1,0 +1,11 @@
+instructions_text,slide_counter,instructions_img
+"This experiment is about situations that involve risks. In each trial, you will be asked to assess the information presented, and then make judgements about the situation.",Slide 1 of 10,instr_items/instr0.png
+"First, you should read the scenario, which will outline the situation and explain what the graph shows.",Slide 2 of 10,instr_items/instr1.png
+"Then, you should look at the graph, which will show the probability of the undesirable situation occurring.",Slide 3 of 10,instr_items/instr2.png
+"After this, you should rate how likely it is that the undesirable situation would occur. When you click on the scale, a red circle will appear.",Slide 4 of 10,instr_items/instr3.png
+You should position the red circle so that your response matches your personal judgement of the chance as closely as possible.,Slide 5 of 10,instr_items/instr4.png
+"Finally, you should rate how severe the consequences would be if the undesirable situation occurred.",Slide 6 of 10,instr_items/instr5.png
+You can re-position each red circle as many times as you like.,Slide 7 of 10,instr_items/instr6.png
+You should respond to each trial as quickly and accurately as possible.,Slide 8 of 10,instr_items/instr6.png
+Some scenarios may appear similar to other scenarios. Please make sure you are paying attention to the information presented in each trial.,Slide 9 of 10,instr_items/instr6.png
+You should press the spacebar at the end of each trial to continue to the next trial. You will now have a chance to practice making a response. Press the spacebar to continue.,Slide 10 of 10,instr_items/instr7.png
