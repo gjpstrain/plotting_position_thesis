@@ -79,7 +79,7 @@ data_by_condition %>%
        x = "Average Rating Difference (High - Low)",
        y = "Literacy Score")
 
-# Reproducing graph literacy analysis while excluding low SGL scorers
+# Reproducing graph literacy analysis while excluding below average SGL scorers
 
 hi_lit <- tidy_data %>%
   filter(literacy > 4.26)
